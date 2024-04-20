@@ -25,17 +25,18 @@ export async function GET(
   }
 }
 
+export interface LikePostRequestBody {
+  userId: string;
+}
+
 export async function POST(
   request: Request,
   { params }: { params: { post_id: string } }
 ) {
-  const { userId } = await request.json();
+  const { userId }: LikePostRequestBody = await request.json();
 
   try {
-    console.log("DEBUG 1", userId);
     const post = await Post.findById(params.post_id);
-
-    console.log("DEBUG 2", post);
 
     if (!post) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });

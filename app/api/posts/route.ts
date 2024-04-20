@@ -1,22 +1,23 @@
 import connectDB from "@/mongodb/db";
 import { IPostBase, Post } from "@/mongodb/models/post";
+import { IUser } from "@/types/user";
 import { NextResponse } from "next/server";
 
+export interface AddPostRequestBody {
+  user: IUser;
+  text: string;
+}
+
 export async function POST(request: Request) {
+  const { user, text }: AddPostRequestBody = await request.json();
+
   try {
     await connectDB();
 
     const postData: IPostBase = {
-      user: {
-        userId: "a",
-        userImage: "b",
-        firstName: "c",
-        lastName: "d",
-      },
-      text: "This is a test",
+      user,
+      text,
     };
-
-    console.log("DEBUG 2 ADD", postData);
 
     const post = await Post.create(postData);
     return NextResponse.json({ message: "Post created successfully", post });
