@@ -17,8 +17,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await connectDB();
-
   return (
     <ClerkProvider>
       <html lang="en">

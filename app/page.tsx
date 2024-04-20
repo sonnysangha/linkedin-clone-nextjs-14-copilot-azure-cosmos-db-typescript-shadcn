@@ -1,4 +1,5 @@
 import PostFeed from "@/components/PostFeed";
+import PostForm from "@/components/PostForm";
 import getURL from "@/lib/getUrl";
 
 export default async function Home() {
@@ -11,6 +12,7 @@ export default async function Home() {
 
   return (
     <main className="">
+      <PostForm />
       <PostFeed posts={posts} />
     </main>
   );
