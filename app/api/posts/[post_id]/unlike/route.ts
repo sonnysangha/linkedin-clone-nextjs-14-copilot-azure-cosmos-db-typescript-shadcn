@@ -1,11 +1,15 @@
 import { Post } from "@/mongodb/models/post";
 import { NextResponse } from "next/server";
 
+export interface UnlikePostRequestBody {
+  userId: string;
+}
+
 export async function POST(
   request: Request,
   { params }: { params: { post_id: string } }
 ) {
-  const { userId } = await request.json();
+  const { userId }: UnlikePostRequestBody = await request.json();
   try {
     const post = await Post.findById(params.post_id);
 

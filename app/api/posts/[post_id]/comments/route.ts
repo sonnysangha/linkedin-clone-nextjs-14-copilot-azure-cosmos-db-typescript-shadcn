@@ -45,13 +45,8 @@ export async function POST(
     }
 
     const comment: ICommentBase = {
-      user: {
-        userId: "a",
-        userImage: "b",
-        firstName: "c",
-        lastName: "d",
-      },
-      text: "Hello Comment",
+      user,
+      text,
     };
 
     await post.commentOnPost(comment);
