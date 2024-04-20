@@ -6,7 +6,10 @@ export interface ICommentBase {
   text: string;
 }
 
-export interface IComment extends Document, ICommentBase {}
+export interface IComment extends Document, ICommentBase {
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 const CommentSchema = new Schema<IComment>({
   user: {

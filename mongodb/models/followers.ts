@@ -14,7 +14,10 @@ interface IFollowersMethods {
 export interface IFollowers
   extends IFollowersBase,
     Document,
-    IFollowersMethods {}
+    IFollowersMethods {
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 // Define the static methods
 interface IFollowersStatics {
@@ -26,10 +29,15 @@ interface IFollowersStatics {
 // Merge the document methods, and static methods with IFollowers
 interface IFollowersModel extends Model<IFollowers>, IFollowersStatics {}
 
-const FollowersSchema = new Schema<IFollowers>({
-  follower: { type: String, required: true },
-  following: { type: String, required: true },
-});
+const FollowersSchema = new Schema<IFollowers>(
+  {
+    follower: { type: String, required: true },
+    following: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 FollowersSchema.methods.unfollow = async function () {
   try {

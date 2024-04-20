@@ -11,7 +11,10 @@ export interface IPostBase {
   likes?: string[];
 }
 
-export interface IPost extends IPostBase, Document {}
+export interface IPost extends IPostBase, Document {
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 // Define the document methods (for each instance of a post)
 interface IPostMethods {
@@ -30,18 +33,23 @@ interface IPostStatics {
 export interface IPostDocument extends IPost, IPostMethods {}
 interface IPostModel extends IPostStatics, Model<IPostDocument> {}
 
-const PostSchema = new Schema<IPostDocument>({
-  user: {
-    userId: { type: String, required: true },
-    userImage: { type: String, required: true },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
+const PostSchema = new Schema<IPostDocument>(
+  {
+    user: {
+      userId: { type: String, required: true },
+      userImage: { type: String, required: true },
+      firstName: { type: String, required: true },
+      lastName: { type: String, required: true },
+    },
+    text: { type: String, required: true },
+    imageUrl: { type: String },
+    comments: { type: [Schema.Types.ObjectId], ref: "Comment", default: [] },
+    likes: { type: [String], default: [] },
   },
-  text: { type: String, required: true },
-  imageUrl: { type: String },
-  comments: { type: [Schema.Types.ObjectId], ref: "Comment", default: [] },
-  likes: { type: [String], default: [] },
-});
+  {
+    timestamps: true,
+  }
+);
 
 PostSchema.methods.likePost = async function (userId: string) {
   try {
