@@ -1,5 +1,17 @@
-export default function Home() {
+import PostFeed from "@/components/PostFeed";
+import getURL from "@/lib/getUrl";
+
+export default async function Home() {
+  const response = await fetch(getURL("/api/posts"), {
+    next: {
+      tags: ["posts"],
+    },
+  });
+  const posts = await response.json();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24"></main>
+    <main className="">
+      <PostFeed posts={posts} />
+    </main>
   );
 }

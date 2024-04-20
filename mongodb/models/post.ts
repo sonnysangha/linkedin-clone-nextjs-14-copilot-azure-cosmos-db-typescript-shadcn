@@ -2,7 +2,6 @@
 import mongoose, { Schema, Document, models, Model } from "mongoose";
 import { Comment, IComment, ICommentBase } from "./comment";
 import { IUser } from "@/types/user";
-import connectDB from "../db";
 
 export interface IPostBase {
   user: IUser;
@@ -28,7 +27,7 @@ interface IPostStatics {
 }
 
 // Merge the document methods, and static methods with IPost
-interface IPostDocument extends IPost, IPostMethods {}
+export interface IPostDocument extends IPost, IPostMethods {}
 interface IPostModel extends IPostStatics, Model<IPostDocument> {}
 
 const PostSchema = new Schema<IPostDocument>({

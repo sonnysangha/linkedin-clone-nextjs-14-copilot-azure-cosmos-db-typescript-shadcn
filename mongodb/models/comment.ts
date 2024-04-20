@@ -1,4 +1,3 @@
-// comment.ts
 import { IUser } from "@/types/user";
 import mongoose, { Schema, Document, models } from "mongoose";
 
