@@ -9,6 +9,7 @@ import { LikePostRequestBody } from "@/app/api/posts/[post_id]/like/route";
 import { IPostDocument } from "@/mongodb/models/post";
 import { cn } from "@/lib/utils";
 import { UnlikePostRequestBody } from "@/app/api/posts/[post_id]/unlike/route";
+import { Button } from "./ui/button";
 
 function PostOptions({
   postId,
@@ -98,15 +99,20 @@ function PostOptions({
       </div>
 
       <div className="flex p-2 justify-between px-2 border-t">
-        <button className="postButton" onClick={likeOrUnlikePost}>
+        <Button
+          variant="ghost"
+          className="postButton"
+          onClick={likeOrUnlikePost}
+        >
           {/* If user has liked the post, show filled thumbs up icon */}
           <ThumbsUpIcon
             className={cn("mr-1", liked && "text-[#4881c2] fill-[#4881c2]")}
           />
           Like
-        </button>
+        </Button>
 
-        <button
+        <Button
+          variant="ghost"
           className="postButton"
           onClick={() => setIsCommentsOpen(!isCommentsOpen)}
         >
@@ -117,22 +123,22 @@ function PostOptions({
             )}
           />
           Comment
-        </button>
+        </Button>
 
-        <button className="postButton">
+        <Button variant="ghost" className="postButton">
           <Repeat2 className="mr-1" />
           Repost
-        </button>
+        </Button>
 
-        <button className="postButton">
+        <Button variant="ghost" className="postButton">
           <Send className="mr-1" />
           Send
-        </button>
+        </Button>
       </div>
 
       {isCommentsOpen && (
         <div className="p-4">
-          <CommentForm postId={postId} />
+          {user?.id && <CommentForm postId={postId} />}
           <CommentFeed post={post} />
         </div>
       )}

@@ -36,7 +36,7 @@ function PostForm() {
   };
 
   return (
-    <div className="">
+    <div className="mb-2">
       <form
         ref={ref}
         action={handlePostAction}
@@ -54,7 +54,7 @@ function PostForm() {
           <input
             type="text"
             name="postInput"
-            placeholder="Start a post, try writing with AI"
+            placeholder="Start writing a post..."
             className="flex-1 outline-none rounded-full py-3 px-4 border"
           />
 

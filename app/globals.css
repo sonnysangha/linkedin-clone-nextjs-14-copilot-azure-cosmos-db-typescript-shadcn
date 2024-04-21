@@ -6,9 +6,17 @@
     .icon {
       @apply flex flex-col items-center justify-center text-sm font-light;
     }
+    
+    .icon svg {
+      @apply fill-white stroke-gray-300;
+    }
+
+    .icon p {
+      @apply text-gray-400 text-xs;
+    }
 
     .postButton {
-      @apply flex justify-center hover:bg-gray-100 p-2 py-4 w-full rounded-md
+      @apply flex justify-center flex-1
     }
   }
 

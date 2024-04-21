@@ -8,6 +8,8 @@ import {
   UsersIcon,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "./ui/button";
 
 function Header() {
   const { userId } = auth();
@@ -37,33 +39,33 @@ function Header() {
       </div>
 
       <div className="flex items-center space-x-4 px-6">
-        <div className="icon">
-          <HomeIcon className="h-5" />
+        <Link href="" className="icon">
+          <HomeIcon className="h-5 " />
           <p>Home</p>
-        </div>
+        </Link>
 
-        <div className="icon">
+        <Link href="" className="icon hidden md:flex">
           <UsersIcon className="h-5" />
           <p>Network</p>
-        </div>
+        </Link>
 
-        <div className="icon">
+        <Link href="" className="icon hidden md:flex">
           <Briefcase className="h-5" />
           <p>Jobs</p>
-        </div>
+        </Link>
 
-        <div className="icon">
+        <Link href="" className="icon">
           <MessagesSquare className="h-5" />
           <p>Messaging</p>
-        </div>
+        </Link>
 
-        {/* Network */}
-        {/* Jobs */}
-        {/* Messaging */}
-        {/* Notifications */}
-
-        {/* Profile */}
-        {userId ? <UserButton /> : <SignInButton />}
+        {userId ? (
+          <UserButton />
+        ) : (
+          <Button asChild variant="secondary">
+            <SignInButton />
+          </Button>
+        )}
       </div>
     </div>
   );

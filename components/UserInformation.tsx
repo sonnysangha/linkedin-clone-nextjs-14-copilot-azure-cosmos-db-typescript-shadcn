@@ -1,6 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { IPostDocument } from "@/mongodb/models/post";
+import { Button } from "./ui/button";
+import { SignInButton } from "@clerk/nextjs";
 
 async function UserInformation({ posts }: { posts: IPostDocument[] }) {
   const { userId, sessionClaims } = auth();
@@ -20,23 +22,37 @@ async function UserInformation({ posts }: { posts: IPostDocument[] }) {
   return (
     <div className="flex flex-col justify-center items-center bg-white mr-6 rounded-lg border py-4">
       <Avatar className="h-16 w-16 mb-5">
-        <AvatarImage src={imageUrl} />
+        {userId ? (
+          <AvatarImage src={imageUrl} />
+        ) : (
+          <AvatarImage src="https://github.com/shadcn.png" />
+        )}
         <AvatarFallback>
-          {firstName.charAt(0)}
-          {lastName.charAt(0)}
+          {firstName?.charAt(0)}
+          {lastName?.charAt(0)}
         </AvatarFallback>
       </Avatar>
 
-      <div className="text-center">
-        <p className="font-semibold">
-          {firstName} {lastName}
-        </p>
+      {userId ? (
+        <div className="text-center">
+          <p className="font-semibold">
+            {firstName} {lastName}
+          </p>
 
-        <p className="text-xs">
-          @{firstName}
-          {lastName}-{userId?.slice(-4)}
-        </p>
-      </div>
+          <p className="text-xs">
+            @{firstName}
+            {lastName}-{userId?.slice(-4)}
+          </p>
+        </div>
+      ) : (
+        <div className="text-center space-y-2">
+          <p className="font-semibold">You are not signed in</p>
+
+          <Button asChild className="bg-[#0B63C4] text-white">
+            <SignInButton>Sign in</SignInButton>
+          </Button>
+        </div>
+      )}
 
       <hr className="w-full border-gray-200 my-5" />
 

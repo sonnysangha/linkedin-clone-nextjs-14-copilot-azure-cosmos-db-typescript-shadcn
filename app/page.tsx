@@ -3,6 +3,7 @@ import PostForm from "@/components/PostForm";
 import UserInformation from "@/components/UserInformation";
 import Widget from "@/components/Widget";
 import getURL from "@/lib/getUrl";
+import { cn } from "@/lib/utils";
 import { IPostDocument } from "@/mongodb/models/post";
 import { auth } from "@clerk/nextjs/server";
 import { LinkedInEmbed } from "react-social-media-embed";
