@@ -81,7 +81,11 @@ PostSchema.statics.getAllPosts = async function () {
   try {
     return await this.find()
       .sort({ createdAt: -1 })
-      .populate("comments")
+      .populate({
+        path: "comments",
+
+        options: { sort: { createdAt: -1 } },
+      })
       .populate("likes");
   } catch (error) {
     console.log("error when getting all posts", error);
@@ -90,7 +94,11 @@ PostSchema.statics.getAllPosts = async function () {
 
 PostSchema.methods.getAllComments = async function () {
   try {
-    await this.populate("comments");
+    await this.populate({
+      path: "comments",
+
+      options: { sort: { createdAt: -1 } },
+    });
     return this.comments;
   } catch (error) {
     console.log("error when getting all comments", error);
