@@ -36,7 +36,7 @@ function PostForm() {
   };
 
   return (
-    <div className="max-w-xl mx-auto">
+    <div className="">
       <form
         ref={ref}
         action={handlePostAction}

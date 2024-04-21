@@ -21,7 +21,7 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className="min-h-screen flex flex-col">
-          <header className="border-b">
+          <header className="border-b sticky top-0 bg-white z-50">
             <Header />
           </header>
 

@@ -2,15 +2,21 @@
 
 // import PostOptions from "./PostOptions";
 // import CommentFeed from "./CommentFeed";
-import { EllipsisIcon, XIcon } from "lucide-react";
+import { EllipsisIcon, Trash2, TrashIcon, XIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { IPostDocument } from "@/mongodb/models/post";
 import PostOptions from "./PostOptions";
 import Image from "next/image";
+import deletePostAction from "@/actions/deletePostAction";
+import { useUser } from "@clerk/nextjs";
+import { Button } from "./ui/button";
 
 function Post({ post }: { post: IPostDocument }) {
+  const { user } = useUser();
+
+  const isAuthor = user?.id === post.user.userId;
   return (
-    <div className="bg-white rounded-md border max-w-xl mx-auto">
+    <div className="bg-white rounded-md border">
       <div className="p-4 flex space-x-2">
         <div>
           <Avatar>
@@ -33,15 +39,14 @@ function Post({ post }: { post: IPostDocument }) {
             </p>
           </div>
 
-          <div className="space-x-2">
-            <button>
-              <EllipsisIcon />
-            </button>
-
-            <button>
-              <XIcon />
-            </button>
-          </div>
+          {isAuthor && (
+            <Button
+              variant="outline"
+              onClick={() => deletePostAction(post._id)}
+            >
+              <Trash2 />
+            </Button>
+          )}
         </div>
       </div>
 

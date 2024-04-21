@@ -22,6 +22,7 @@ interface IPostMethods {
   unlikePost(userId: string): Promise<void>;
   commentOnPost(comment: ICommentBase): Promise<void>;
   getAllComments(): Promise<IComment[]>;
+  removePost(): Promise<void>;
 }
 
 // Define the static methods
@@ -64,6 +65,14 @@ PostSchema.methods.unlikePost = async function (userId: string) {
     await this.updateOne({ $pull: { likes: userId } });
   } catch (error) {
     console.log("error when unliking post", error);
+  }
+};
+
+PostSchema.methods.removePost = async function () {
+  try {
+    await this.model("Post").deleteOne({ _id: this._id });
+  } catch (error) {
+    console.log("error when removing post", error);
   }
 };
 
