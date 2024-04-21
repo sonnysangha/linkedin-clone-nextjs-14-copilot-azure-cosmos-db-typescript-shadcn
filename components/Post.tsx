@@ -5,6 +5,7 @@
 import { EllipsisIcon, XIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { IPostDocument } from "@/mongodb/models/post";
+import PostOptions from "./PostOptions";
 
 function Post({ post }: { post: IPostDocument }) {
   return (
@@ -46,7 +47,7 @@ function Post({ post }: { post: IPostDocument }) {
         {/* If image uploaded put it here... */}
       </div>
 
-      {/* <PostOptions postId={_id.toString()} /> */}
+      <PostOptions postId={post._id} post={post} />
     </div>
   );
 }

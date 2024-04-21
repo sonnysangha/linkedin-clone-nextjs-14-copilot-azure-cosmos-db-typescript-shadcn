@@ -4,7 +4,7 @@ import { AddCommentRequestBody } from "@/app/api/posts/[post_id]/comments/route"
 import getURL from "@/lib/getUrl";
 import { IUser } from "@/types/user";
 import { currentUser } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 export default async function createCommentAction(
   postId: string,
@@ -42,5 +42,5 @@ export default async function createCommentAction(
     throw new Error("Failed to add comment");
   }
 
-  revalidatePath(`comments:${postId}`);
+  revalidateTag("posts");
 }

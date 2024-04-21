@@ -44,7 +44,7 @@ const PostSchema = new Schema<IPostDocument>(
     text: { type: String, required: true },
     imageUrl: { type: String },
     comments: { type: [Schema.Types.ObjectId], ref: "Comment", default: [] },
-    likes: { type: [String], default: [] },
+    likes: { type: [String] },
   },
   {
     timestamps: true,
@@ -79,7 +79,10 @@ PostSchema.methods.commentOnPost = async function (commentToAdd: ICommentBase) {
 
 PostSchema.statics.getAllPosts = async function () {
   try {
-    return await this.find().populate("comments").populate("likes");
+    return await this.find()
+      .sort({ createdAt: -1 })
+      .populate("comments")
+      .populate("likes");
   } catch (error) {
     console.log("error when getting all posts", error);
   }

@@ -1,7 +1,16 @@
 import { IPostDocument } from "@/mongodb/models/post";
 import Post from "./Post";
+import getURL from "@/lib/getUrl";
 
-function PostFeed({ posts }: { posts: IPostDocument[] }) {
+async function PostFeed() {
+  const response = await fetch(getURL("/api/posts"), {
+    next: {
+      revalidate: 0,
+      tags: ["posts"],
+    },
+  });
+  const posts: IPostDocument[] = await response.json();
+
   return (
     <div className="space-y-2 mt-2">
       {posts?.map((post) => (
