@@ -26,7 +26,10 @@ function Post({ post }: { post: IPostDocument }) {
             <p className="font-semibold">
               {post.user.firstName} {post.user.lastName}
             </p>
-            <p className="text-xs">0 followers</p>
+            <p className="text-xs text-gray-400">
+              @{post.user.firstName}
+              {post.user.firstName}-{post.user.userId.toString().slice(-4)}
+            </p>
           </div>
 
           <div className="space-x-2">

@@ -12,7 +12,7 @@ async function PostFeed() {
   const posts: IPostDocument[] = await response.json();
 
   return (
-    <div className="space-y-2 mt-2">
+    <div className="space-y-2 mt-2 pb-20">
       {posts?.map((post) => (
         <Post key={post._id} post={post} />
       ))}
