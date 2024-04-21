@@ -76,7 +76,7 @@ function PostOptions({
 
   return (
     <div className="">
-      <div className="mt-2 flex justify-between">
+      <div className="flex justify-between">
         <div>
           {likes && likes.length > 0 && (
             <p className="text-xs text-gray-500 cursor-pointer hover:underline">
@@ -97,7 +97,7 @@ function PostOptions({
         </div>
       </div>
 
-      <div className="flex justify-between mt-2 px-2 border-t">
+      <div className="flex p-2 justify-between px-2 border-t">
         <button className="postButton" onClick={likeOrUnlikePost}>
           {/* If user has liked the post, show filled thumbs up icon */}
           <ThumbsUpIcon

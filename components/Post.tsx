@@ -6,11 +6,12 @@ import { EllipsisIcon, XIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { IPostDocument } from "@/mongodb/models/post";
 import PostOptions from "./PostOptions";
+import Image from "next/image";
 
 function Post({ post }: { post: IPostDocument }) {
   return (
-    <div className="p-4 bg-white rounded-md border max-w-xl mx-auto">
-      <div className="flex space-x-2">
+    <div className="bg-white rounded-md border max-w-xl mx-auto">
+      <div className="p-4 flex space-x-2">
         <div>
           <Avatar>
             <AvatarImage src={post.user.userImage} />
@@ -44,10 +45,19 @@ function Post({ post }: { post: IPostDocument }) {
         </div>
       </div>
 
-      <div>
-        <p className="mt-2">{post.text}</p>
+      <div className="">
+        <p className="px-4 pb-2 mt-2">{post.text}</p>
 
         {/* If image uploaded put it here... */}
+        {post.imageUrl && (
+          <Image
+            src={post.imageUrl}
+            alt="Post Image"
+            width={500}
+            height={500}
+            className="w-full mx-auto"
+          />
+        )}
       </div>
 
       <PostOptions postId={post._id} post={post} />
