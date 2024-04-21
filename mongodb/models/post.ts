@@ -7,7 +7,7 @@ export interface IPostBase {
   user: IUser;
   text: string;
   imageUrl?: string;
-  comments?: IComment["_id"][];
+  comments?: IComment[];
   likes?: string[];
 }
 

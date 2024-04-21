@@ -76,7 +76,7 @@ function PostOptions({
 
   return (
     <div className="">
-      <div className="flex justify-between">
+      <div className="flex justify-between p-4">
         <div>
           {likes && likes.length > 0 && (
             <p className="text-xs text-gray-500 cursor-pointer hover:underline">
@@ -110,7 +110,12 @@ function PostOptions({
           className="postButton"
           onClick={() => setIsCommentsOpen(!isCommentsOpen)}
         >
-          <MessageCircle className="mr-1" />
+          <MessageCircle
+            className={cn(
+              "mr-1",
+              isCommentsOpen && "text-gray-600 fill-gray-600"
+            )}
+          />
           Comment
         </button>
 
@@ -126,7 +131,7 @@ function PostOptions({
       </div>
 
       {isCommentsOpen && (
-        <div className="mt-4">
+        <div className="p-4">
           <CommentForm postId={postId} />
           <CommentFeed post={post} />
         </div>

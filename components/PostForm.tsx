@@ -16,6 +16,7 @@ function PostForm() {
   const handlePostAction = async (formData: FormData): Promise<void> => {
     const formDataCopy = formData;
     ref.current?.reset();
+
     setPreview(null);
 
     try {
