@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { ImageIcon, XIcon } from "lucide-react";
+import { toast } from "sonner";
 
 function PostForm() {
   const ref = useRef<HTMLFormElement>(null);
@@ -16,6 +17,12 @@ function PostForm() {
   const handlePostAction = async (formData: FormData): Promise<void> => {
     const formDataCopy = formData;
     ref.current?.reset();
+
+    const text = formDataCopy.get("postInput") as string;
+
+    if (!text) {
+      throw new Error("You must provide a post input");
+    }
 
     setPreview(null);
 
@@ -39,7 +46,14 @@ function PostForm() {
     <div className="mb-2">
       <form
         ref={ref}
-        action={handlePostAction}
+        action={(formData) => {
+          const promise = handlePostAction(formData);
+          toast.promise(promise, {
+            loading: "Creating post...",
+            success: "Post created!",
+            error: (e) => "Error creating post: " + e.message,
+          });
+        }}
         className="p-3 bg-white rounded-lg border"
       >
         <div className="flex items-center space-x-2">

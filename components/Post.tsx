@@ -12,6 +12,7 @@ import { useUser } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 import ReactTimeago from "react-timeago";
 import { Badge } from "./ui/badge";
+import { toast } from "sonner";
 
 function Post({ post }: { post: IPostDocument }) {
   const { user } = useUser();
@@ -53,7 +54,14 @@ function Post({ post }: { post: IPostDocument }) {
           {isAuthor && (
             <Button
               variant="outline"
-              onClick={() => deletePostAction(post._id)}
+              onClick={() => {
+                const promise = deletePostAction(post._id);
+                toast.promise(promise, {
+                  loading: "Deleting post...",
+                  success: "Post deleted!",
+                  error: "Error deleting post",
+                });
+              }}
             >
               <Trash2 />
             </Button>

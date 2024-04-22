@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Header from "@/components/Header";
-import connectDB from "@/mongodb/db";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,12 +21,14 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className="min-h-screen flex flex-col">
+          <Toaster position="bottom-left" />
+
           <header className="border-b sticky top-0 bg-white z-50">
             <Header />
           </header>
 
           <div className=" bg-[#F4F2ED] flex-1 w-full">
-            <div className="max-w-6xl mx-auto">{children}</div>
+            <main className="max-w-6xl mx-auto">{children}</main>
           </div>
         </body>
       </html>

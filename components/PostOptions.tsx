@@ -10,6 +10,7 @@ import { IPostDocument } from "@/mongodb/models/post";
 import { cn } from "@/lib/utils";
 import { UnlikePostRequestBody } from "@/app/api/posts/[post_id]/unlike/route";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
 
 function PostOptions({
   postId,
