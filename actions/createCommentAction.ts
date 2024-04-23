@@ -1,10 +1,12 @@
 "use server";
 
 import { AddCommentRequestBody } from "@/app/api/posts/[post_id]/comments/route";
-import getURL from "@/lib/getUrl";
+
+import { ICommentBase } from "@/mongodb/models/comment";
+import { Post } from "@/mongodb/models/post";
 import { IUser } from "@/types/user";
 import { currentUser } from "@clerk/nextjs/server";
-import { revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 export default async function createCommentAction(
   postId: string,
@@ -30,17 +32,21 @@ export default async function createCommentAction(
     text: commentInput,
   };
 
-  const response = await fetch(getURL(`/api/posts/${postId}/comments`), {
-    method: "POST",
-    body: JSON.stringify({ ...body }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const post = await Post.findById(postId);
 
-  if (!response.ok) {
-    throw new Error("Failed to add comment");
+  if (!post) {
+    throw new Error("Post not found");
   }
 
-  revalidateTag("posts");
+  const comment: ICommentBase = {
+    user: userDB,
+    text: commentInput,
+  };
+
+  try {
+    await post.commentOnPost(comment);
+    revalidatePath("/");
+  } catch (error) {
+    throw new Error("An error occurred while adding comment");
+  }
 }

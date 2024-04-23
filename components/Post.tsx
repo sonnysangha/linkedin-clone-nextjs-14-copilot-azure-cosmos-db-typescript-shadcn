@@ -1,8 +1,6 @@
 "use client";
 
-// import PostOptions from "./PostOptions";
-// import CommentFeed from "./CommentFeed";
-import { EllipsisIcon, Trash2, TrashIcon, XIcon } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { IPostDocument } from "@/mongodb/models/post";
 import PostOptions from "./PostOptions";

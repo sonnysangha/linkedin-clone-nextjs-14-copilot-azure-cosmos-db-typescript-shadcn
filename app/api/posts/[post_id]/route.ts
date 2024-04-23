@@ -32,6 +32,8 @@ export async function DELETE(
   request: Request,
   { params }: { params: { post_id: string } }
 ) {
+  //   auth().protect();
+
   await connectDB();
   const { userId }: DeletePostRequestBody = await request.json();
 

@@ -17,6 +17,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.372.0",
     "mongoose": "^8.3.2",
     "next": "14.2.2",
@@ -32,6 +33,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

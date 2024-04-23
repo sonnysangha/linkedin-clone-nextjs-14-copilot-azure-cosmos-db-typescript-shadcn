@@ -40,7 +40,7 @@ const PostSchema = new Schema<IPostDocument>(
       userId: { type: String, required: true },
       userImage: { type: String, required: true },
       firstName: { type: String, required: true },
-      lastName: { type: String, required: true },
+      lastName: { type: String },
     },
     text: { type: String, required: true },
     imageUrl: { type: String },
@@ -88,14 +88,24 @@ PostSchema.methods.commentOnPost = async function (commentToAdd: ICommentBase) {
 
 PostSchema.statics.getAllPosts = async function () {
   try {
-    return await this.find()
+    const posts = await this.find()
       .sort({ createdAt: -1 })
       .populate({
         path: "comments",
 
         options: { sort: { createdAt: -1 } },
       })
-      .populate("likes");
+      .populate("likes")
+      .lean(); // lean() returns a plain JS object instead of a mongoose document
+
+    return posts.map((post: IPostDocument) => ({
+      ...post,
+      _id: post._id.toString(),
+      comments: post.comments?.map((comment: IComment) => ({
+        ...comment,
+        _id: comment._id.toString(),
+      })),
+    }));
   } catch (error) {
     console.log("error when getting all posts", error);
   }

@@ -1,6 +1,5 @@
 import { IPostDocument } from "@/mongodb/models/post";
 import Post from "./Post";
-import getURL from "@/lib/getUrl";
 
 async function PostFeed({ posts }: { posts: IPostDocument[] }) {
   return (

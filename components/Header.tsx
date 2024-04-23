@@ -1,5 +1,4 @@
-import { SignInButton, UserButton } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import {
   Briefcase,
   HomeIcon,
@@ -11,9 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
-function Header() {
-  const { userId } = auth();
-
+async function Header() {
   return (
     <div className="flex items-center p-2 max-w-6xl mx-auto">
       {/* Logo */}
@@ -59,13 +56,15 @@ function Header() {
           <p>Messaging</p>
         </Link>
 
-        {userId ? (
+        <SignedIn>
           <UserButton />
-        ) : (
+        </SignedIn>
+
+        <SignedOut>
           <Button asChild variant="secondary">
             <SignInButton />
           </Button>
-        )}
+        </SignedOut>
       </div>
     </div>
   );

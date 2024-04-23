@@ -1,10 +1,9 @@
 "use server";
 
 import { currentUser } from "@clerk/nextjs/server";
-import getURL from "@/lib/getUrl";
-
-import { revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { DeletePostRequestBody } from "@/app/api/posts/[post_id]/route";
+import { Post } from "@/mongodb/models/post";
 
 export default async function deletePostAction(postId: string) {
   const user = await currentUser();
@@ -17,17 +16,20 @@ export default async function deletePostAction(postId: string) {
     userId: user.id,
   };
 
-  const response = await fetch(getURL(`/api/posts/${postId}`), {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ ...body }),
-  });
+  const post = await Post.findById(postId);
 
-  if (!response.ok) {
-    throw new Error("Failed to delete post");
+  if (!post) {
+    throw new Error("Post not found");
   }
 
-  revalidateTag("posts");
+  if (post.user.userId !== user.id) {
+    throw new Error("Post does not belong to the user");
+  }
+
+  try {
+    await post.removePost();
+    revalidatePath("/");
+  } catch (error) {
+    throw new Error("An error occurred while deleting the post");
+  }
 }

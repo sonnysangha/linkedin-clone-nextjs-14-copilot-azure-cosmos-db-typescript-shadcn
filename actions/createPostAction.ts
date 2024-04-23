@@ -2,12 +2,13 @@
 
 import { AddPostRequestBody } from "@/app/api/posts/route";
 import generateSASToken, { containerName } from "@/lib/generateSASToken";
-import getURL from "@/lib/getUrl";
+
+import { Post } from "@/mongodb/models/post";
 import { IUser } from "@/types/user";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { currentUser } from "@clerk/nextjs/server";
 import { randomUUID } from "crypto";
-import { revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 export default async function createPostAction(formData: FormData) {
   const user = await currentUser();
@@ -30,53 +31,53 @@ export default async function createPostAction(formData: FormData) {
     lastName: user.lastName || "",
   };
 
-  if (image.size > 0) {
-    console.log("Uploading image to Azure Blob Storage...", image);
+  try {
+    if (image.size > 0) {
+      console.log("Uploading image to Azure Blob Storage...", image);
 
-    const accountName = process.env.AZURE_STORAGE_NAME;
+      const accountName = process.env.AZURE_STORAGE_NAME;
 
-    const sasToken = await generateSASToken();
+      const sasToken = await generateSASToken();
 
-    const blobServiceClient = new BlobServiceClient(
-      `https://${accountName}.blob.core.windows.net?${sasToken}`
-    );
+      const blobServiceClient = new BlobServiceClient(
+        `https://${accountName}.blob.core.windows.net?${sasToken}`
+      );
 
-    const containerClient = blobServiceClient.getContainerClient(containerName);
+      const containerClient =
+        blobServiceClient.getContainerClient(containerName);
 
-    // generate current timestamp
-    const timestamp = new Date().getTime();
-    const file_name = `${randomUUID()}_${timestamp}.png`;
+      // generate current timestamp
+      const timestamp = new Date().getTime();
+      const file_name = `${randomUUID()}_${timestamp}.png`;
 
-    const blockBlobClient = containerClient.getBlockBlobClient(file_name);
+      const blockBlobClient = containerClient.getBlockBlobClient(file_name);
 
-    try {
       const imageBuffer = await image.arrayBuffer();
       const res = await blockBlobClient.uploadData(imageBuffer);
       image_url = res._response.request.url;
 
-      console.log("File uploaded successfully!");
-    } catch (error) {
-      console.error("Error uploading file:", error);
+      console.log("File uploaded successfully!", image_url);
+
+      const body: AddPostRequestBody = {
+        user: userDB,
+        text: postInput,
+        imageUrl: image_url,
+      };
+
+      console.log("Creating post with image...", body);
+      await Post.create(body);
+    } else {
+      const body: AddPostRequestBody = {
+        user: userDB,
+        text: postInput,
+      };
+
+      console.log("Creating post without image...", body);
+      await Post.create(body);
     }
+  } catch (error: any) {
+    throw new Error("Failed to create post", error);
   }
 
-  const body: AddPostRequestBody = {
-    user: userDB,
-    text: postInput,
-    image: image_url,
-  };
-
-  const response = await fetch(getURL("/api/posts"), {
-    method: "POST",
-    body: JSON.stringify({ ...body }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to create post");
-  }
-
-  revalidateTag("posts");
+  revalidatePath("/");
 }

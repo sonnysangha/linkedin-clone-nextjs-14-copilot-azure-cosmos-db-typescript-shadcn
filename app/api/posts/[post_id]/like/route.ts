@@ -33,6 +33,8 @@ export async function POST(
   request: Request,
   { params }: { params: { post_id: string } }
 ) {
+  await connectDB();
+
   const { userId }: LikePostRequestBody = await request.json();
 
   try {
