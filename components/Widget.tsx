@@ -1,6 +1,6 @@
 function Widget() {
   return (
-    <div className="ml-6 h-2/5">
+    <div className="ml-6 h-[790px]">
       <iframe
         src="https://www.linkedin.com/embed/feed/update/urn:li:share:7186102330092638208"
         title="Embedded post"
