@@ -64,7 +64,6 @@ export default async function createPostAction(formData: FormData) {
         imageUrl: image_url,
       };
 
-      console.log("Creating post with image...", body);
       await Post.create(body);
     } else {
       const body: AddPostRequestBody = {
@@ -72,7 +71,6 @@ export default async function createPostAction(formData: FormData) {
         text: postInput,
       };
 
-      console.log("Creating post without image...", body);
       await Post.create(body);
     }
   } catch (error: any) {
