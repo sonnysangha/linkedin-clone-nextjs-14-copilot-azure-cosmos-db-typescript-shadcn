@@ -19,7 +19,7 @@ export default async function Home() {
         <UserInformation posts={posts} />
       </section>
 
-      <section className="col-span-full md:col-span-6 xl:col-span-4 xl:max-w-xl mx-auto">
+      <section className="col-span-full md:col-span-6 xl:col-span-4 xl:max-w-xl mx-auto w-full">
         <SignedIn>
           <PostForm />
         </SignedIn>
